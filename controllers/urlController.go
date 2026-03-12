@@ -10,7 +10,7 @@ import (
 )
 
 func CreateMapping(ctx *gin.Context) {
-	var url models.Url
+	var url *models.Url
 
 	err := ctx.ShouldBindJSON(&url)
 	if err != nil {
@@ -18,13 +18,13 @@ func CreateMapping(ctx *gin.Context) {
 		return
 	}
 
-	id, err := url.CreateMapping()
+	url, err = url.CreateMapping()
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, gin.H{"url": id})
+	ctx.JSON(http.StatusCreated, gin.H{"url": url})
 }
 
 func GetMapping(ctx *gin.Context) {
@@ -45,5 +45,5 @@ func GetMapping(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"url": url})
+	ctx.Redirect(http.StatusMovedPermanently, url.Url)
 }

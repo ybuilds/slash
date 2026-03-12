@@ -10,7 +10,7 @@ func init() {
 	}
 }
 
-func Base62Encoder(id int) string {
+func Base62Encoder(id int64) string {
 	if id == 0 {
 		return "0"
 	}
@@ -29,11 +29,11 @@ func Base62Encoder(id int) string {
 	return string(encode)
 }
 
-func Base62Decoder(encode string) int {
+func Base62Decoder(encode string) int64 {
 	id := 0
 	for i := range encode {
 		id = (id * 62) + lookup[encode[i]]
 	}
 
-	return id
+	return int64(id)
 }
